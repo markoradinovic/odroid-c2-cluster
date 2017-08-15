@@ -1,0 +1,15 @@
+---
+- name: Shutdown hosts
+  command: /sbin/shutdown -h now
+  async: 1
+  poll: 0
+
+- name: Wait for host to go down
+  local_action:
+    module: wait_for
+      host={{ inventory_hostname }}
+      port=22
+      delay=1
+      timeout=300
+      state=stopped
+  become: false
