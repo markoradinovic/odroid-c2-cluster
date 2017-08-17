@@ -1,6 +1,0 @@
----
-include_vars: vault.yml
-
-#ansible_user: odroid
-ansible_user: root
-ansible_ssh_common_args: '-o StrictHostKeyChecking=no'

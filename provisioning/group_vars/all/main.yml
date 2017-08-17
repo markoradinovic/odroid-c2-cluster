@@ -1,0 +1,6 @@
+---
+ansible_user: odroid
+ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+
+odroid_ssh_id_rsa: "{{ vault_odroid_ssh_id_rsa }}"
+odroid_ssh_id_rsa_pub: "{{ vault_odroid_ssh_id_rsa_pub }}"

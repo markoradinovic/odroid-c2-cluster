@@ -1,0 +1,3 @@
+ansible_user:
+odroid_ssh_id_rsa:
+odroid_ssh_id_rsa_pub:

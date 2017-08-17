@@ -1,0 +1,13 @@
+---
+- name: Copy sshd_config
+  copy:
+    src: sshd_config
+    dest: /etc/ssh/
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Restart sshd daemon
+  service:
+    name: sshd
+    state: restarted

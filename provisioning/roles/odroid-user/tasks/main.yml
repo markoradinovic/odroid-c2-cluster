@@ -1,0 +1,47 @@
+---
+- name: Add odroid user
+  user:
+    name: odroid
+    shell: /bin/bash
+    groups: sudo, systemd-journal
+    append: yes
+
+- name: Configure sudoers for odroid user
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^odroid\s'
+    line: 'odroid ALL=(ALL:ALL) NOPASSWD:ALL'
+    validate: 'visudo -cf %s'
+
+- name: Ensure that directory .shh exists in odroid user home
+  file:
+    path: /home/odroid/.ssh
+    state: directory
+    mode: 0700
+    group: odroid
+    owner: odroid
+
+- name: Copy id_rsa key
+  copy:
+    content: "{{ odroid_ssh_id_rsa }}"
+    dest: /home/odroid/.ssh/id_rsa
+    owner: odroid
+    group: odroid
+    mode: 0600
+
+- name: Copy id_rsa.pub key
+  copy:
+    content: "{{ odroid_ssh_id_rsa_pub }}"
+    dest: /home/odroid/.ssh/id_rsa.pub
+    owner: odroid
+    group: odroid
+    mode: 0600
+
+- name: Copy authorized_keys file
+  copy:
+    content: "{{ odroid_ssh_id_rsa_pub }}"
+    dest: /home/odroid/.ssh/authorized_keys
+    owner: odroid
+    group: odroid
+    mode: 0600
