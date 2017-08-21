@@ -1,0 +1,15 @@
+---
+- name: Ensure that Docker Daemon is listening on TCP Socket 2375
+  local_action: command nc -z -v {{ ansible_host }} 2375
+  register: docker_tcp_socket_open_result
+  become: no
+  tags:
+    - bootstrap
+    - update
+    - debug
+
+- debug:
+    msg: "{{ docker_tcp_socket_open_result.stderr }}"
+  tags:
+    - bootstrap
+    - update

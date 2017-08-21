@@ -1,0 +1,24 @@
+---
+- name: Ensure that network bridge configuration file exists
+  copy:
+    src: 60-nw-bridge.conf
+    dest: /etc/sysctl.d/60-nw-bridge.conf
+    owner: root
+    mode: 0644
+  become: true
+
+- name: Ensure that system optimizations configuration file exists
+  copy:
+    src: 70-optimizations.conf
+    dest: /etc/sysctl.d/70-optimizations.conf
+    owner: root
+    mode: 0644
+  become: true
+
+- name: Ensure that file handles configuration file exists
+  copy:
+    src: 30-nfile.conf
+    dest: /etc/security/limits.d/30-nfile.conf
+    owner: root
+    mode: 0600
+  become: true

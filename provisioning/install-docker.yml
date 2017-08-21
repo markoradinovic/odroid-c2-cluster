@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: true
+  roles:
+   - { role: docker }
+   # Samo prvi put tagovi idu: bootstrap, configure, update
+   # Svaki sledeci put se bira tag po potrebi

@@ -1,0 +1,9 @@
+---
+- name: Apt dist-upgrade
+  apt:
+    upgrade: dist
+    update_cache: yes
+
+- name: Apt remove unused packages
+  apt:
+    autoremove: yes

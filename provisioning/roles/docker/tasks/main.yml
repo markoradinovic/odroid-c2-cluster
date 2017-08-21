@@ -1,0 +1,71 @@
+---
+- name: Download docker package
+  get_url:
+    url: https://dl.dropboxusercontent.com/s/daugz5cqo50zq0d/docker-ce_17.06.0-ce-0-ubuntu.deb?dl=0
+    dest: /home/odroid/docker-ce_17.06.0-ce-0-ubuntu.deb
+    owner: odroid
+    group: odroid
+  tags:
+    - update
+
+- name: Install docker package
+  apt:
+    deb: /home/odroid/docker-ce_17.06.0-ce-0-ubuntu.deb
+  tags:
+    - update
+
+- name: Delete docker package
+  file:
+    path: /home/odroid/docker-ce_17.06.0-ce-0-ubuntu.deb
+    state: absent
+  tags:
+    - update
+
+- name: Add docker to odroid user group
+  user:
+    name: odroid
+    groups: docker
+    append: yes
+  tags:
+    - configure
+
+- name: Copy Docker Systemd port activation
+  copy:
+    src: docker-tcp.socket
+    dest: /etc/systemd/system/docker-tcp.socket
+    owner: root
+    mode: 0600
+  tags:
+    - bootstrap
+
+- name: Enable Docker tcp Socket
+  command: systemctl enable docker-tcp.socket
+  tags:
+    - bootstrap
+
+- name: Enable Docker tcp Socket
+  command: systemctl enable docker.socket
+  tags:
+    - bootstrap
+
+- name: Stop Docker daemon
+  service: name=docker state=stopped
+  tags:
+    - bootstrap
+
+- name: Start Docker tcp Socket
+  command: systemctl start docker-tcp.socket
+  tags:
+    - bootstrap
+
+- name: Start Docker unix Socket
+  command: systemctl start docker.socket
+  tags:
+    - bootstrap
+
+- name: Start Docker daemon
+  service: name=docker state=started
+  tags:
+    - bootstrap
+
+- include: check-tcp-port.yml

@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Install common packages
+      apt:
+        pkg: "{{ item }}"
+        state: latest
+        update_cache: yes
+      with_items:
+        - apt-transport-https
+        - ca-certificates
+        - software-properties-common
+        - curl
+        - bash-completion
+        - chrony
+        - nmap
+        - nano
+        - iptables
+        - libltdl7
+        - libnfnetlink0
