@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Force chrony to synhronize time
+      command: "{{ item }}"
+      with_items:
+        - chronyc -a "burst 3/5"
+        - chronyc -a makestep
